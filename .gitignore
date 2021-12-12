@@ -1,0 +1,9 @@
+## npm modules
+node_modules
+
+## build files
+# public
+# server.js
+
+## Mac system file
+.DS_Store
