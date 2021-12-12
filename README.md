@@ -1,43 +1,26 @@
 
+# セットアップ
+## git clone
+`# git clone git@github.com:ikmnjrd/react-ssr-knative-boilerplate.git`
 
-git clone git@~~~~
+`# rm -rf .git/`
 
-git 再設定
+`# npm install`
 
-npm install
+## Docker確認
+`# docker build . -t {container_name}` 
 
-
-docker build . -t {container_name}
-
-
-起動確認
-docker run -it --rm {container_name} bassh
+`# docker run -it --rm {container_name} bash`
 
 # アプリをコンテナ化して Container Registry にアップロードする
 ## 適当にプロジェクトを作成
-https://qiita.com/masaaania/items/7a83c5e44e351b4a3a2c
+`# gcloud projects create プロジェクトID --name プロジェクト名`
 
 ## Dockerfile を含むディレクトリから次のコマンドを実行し、Cloud Build を使用してコンテナ イメージをビルドします
-`# gcloud builds submit --tag gcr.io/phrasal-door-334816/helloworld`
+`# gcloud builds submit --tag asia.gcr.io/PROJECT-ID/helloworld`
 
 ## Cloud Run へのデプロイ
-`# gcloud run deploy --image gcr.io/PROJECT-ID/helloworld --platform managed`
-
-サービス名やリージョンを聞かれる。
-```
-Service name (helloworld):  
-API [run.googleapis.com] not enabled on project [823424291688]. Would you like to enable and retry (this will 
-take a few minutes)? (y/N)?  y
-
-Enabling service [run.googleapis.com] on project [823424291688]...
-
-Please enter your numeric choice:  3
-
-
-```
+`# gcloud run deploy helloworld --image asia.gcr.io/PROJECT-ID/helloworld --region asia-northeast1 --platform managed --allow-unauthenticated`
 
 # 課題
-Cloud runでのdeploy時、server.jsをpublicフォルダに入れた状態だと `scripts: {"start": "node public/server.js"}` がパスの解決ができずエラーでデプロイ失敗する。
-
-publicというディレクトリ名だと何故か公開できない？
-publicなり、buildなりのフォルダ名を.gitignoreしておくとデプロイ失敗するっぽい？
+Cloud runでのdeploy時、.gitignoreで指定されたファイル/ディレクトリだと、デプロイに失敗した。デプロイ時の `scripts: {"start": "node public/server.js"}` がパスの解決ができずエラーでデプロイ失敗する。
